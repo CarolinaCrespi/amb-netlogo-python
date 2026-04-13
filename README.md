@@ -70,7 +70,7 @@ abm-netlogo-python/
 ├── README.md
 ├── index.html          ← guida passo-passo: da NetLogo a Python
 ├── dizionario.html     ← glossario termini con confronto NetLogo / Python
-└── og-image.png        ← anteprima social (da generare da og-preview.html)
+└── og-image.png        ← anteprima social
 ```
 
 ---
