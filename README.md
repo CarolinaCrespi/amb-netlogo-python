@@ -14,10 +14,12 @@ Il progetto parte dal **modello SIR** (un modello epidemiologico classico, sempl
 
 ### Cosa c'è già
 
-| Pagina | Contenuto |
-|--------|-----------|
-| [Guida — Modello SIR](index.html) | Traduzione passo-passo di un modello epidemiologico da NetLogo a Python: agente, movimento, contagio, guarigione, ciclo principale, visualizzazione, e una ricetta generale per costruire qualsiasi ABM da zero |
-| [Dizionario — Modello SIR](dizionario.html) | Glossario dei termini e costrutti usati nel modello, con equivalenti NetLogo e Python a confronto |
+| Risorsa | Tipo | Contenuto |
+|---------|------|-----------|
+| [Guida — Modello SIR](index.html) | Pagina web | Traduzione passo-passo di un modello epidemiologico da NetLogo a Python: agente, movimento, contagio, guarigione, ciclo principale, visualizzazione, e una ricetta generale per costruire qualsiasi ABM da zero |
+| [Dizionario — Modello SIR](dizionario.html) | Pagina web | Glossario dei termini e costrutti usati nel modello, con equivalenti NetLogo e Python a confronto |
+| [SIR_model_discreto.nlogo](SIR_model_discreto.nlogo) | Codice NetLogo | Modello SIR su griglia discreta in NetLogo (NetLogo 6.3) |
+| [SIR_model_discreto.py](SIR_model_discreto.py) | Codice Python | Stesso modello SIR discreto tradotto in Python puro con NumPy |
 
 ---
 
@@ -68,10 +70,28 @@ https://CarolinaCrespi.github.io/abm-netlogo-python/
 ```
 abm-netlogo-python/
 ├── README.md
-├── index.html          ← guida passo-passo: da NetLogo a Python
-├── dizionario.html     ← glossario termini con confronto NetLogo / Python
-└── og-image.png        ← anteprima social
+├── index.html                  ← guida passo-passo: da NetLogo a Python
+├── dizionario.html             ← glossario termini con confronto NetLogo / Python
+│
+├── SIR_model_discreto.nlogo   ← modello SIR discreto in NetLogo (6.3)
+├── SIR_model_discreto.py      ← stesso modello tradotto in Python
+│
+├── SIR_animazione.gif          ← output di esempio generato da SIR_model_discreto.py
+└── og-preview.html             ← apri nel browser per generare og-image.png
 ```
+
+### I due modelli a confronto
+
+Il cuore del progetto è la coppia `SIR_model_discreto.nlogo` / `SIR_model_discreto.py`: **lo stesso modello scritto nei due linguaggi**, con le stesse regole e gli stessi parametri di default.
+
+| Aspetto | NetLogo | Python |
+|---------|---------|--------|
+| Griglia | mondo −16 a +16 (world settings) | `grid_size = 16` in `config` |
+| Agenti | `turtles-own [state]` | `@dataclass agent` con `state`, `pos_x`, `pos_y` |
+| Movimento | `random 4` + clamp esplicito | `DIRECTIONS[randint(0,4)]` + `np.clip` |
+| Contagio | Chebyshev esplicito (`max list dxx dyy`) | `max(abs(dx), abs(dy)) ≤ 1` |
+| Guarigione | `random-float 1.0 < gamma` | `np.random.rand() < cfg.gamma` |
+| Stop | `if days-passed >= days [ stop ]` | `for day in range(cfg.days)` |
 
 ---
 
